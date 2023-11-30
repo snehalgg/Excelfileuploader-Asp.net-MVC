@@ -1,0 +1,42 @@
+﻿@using System.Data
+@using System.Data.SqlClient
+
+
+@{
+    ViewBag.Title = "Upload Excel Data";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Upload Excel Data</h2>
+
+@using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        <label>Select Excel file:</label>
+        <input type="file" name="file" />
+    </div>
+    <input type="submit" value="Upload" />
+}
+
+<p>@ViewBag.Message</p>
+
+@if (ViewBag.Data != null)
+{
+    <table border="1">
+        <tr>
+            @foreach (DataColumn col in ViewBag.Data.Columns)
+            {
+                <th>@col.ColumnName</th>
+            }
+        </tr>
+        @foreach (DataRow row in ViewBag.Data.Rows)
+        {
+            <tr>
+                @foreach (DataColumn col in ViewBag.Data.Columns)
+                {
+                    <td>@row[col.ColumnName]</td>
+                }
+            </tr>
+        }
+    </table>
+}
